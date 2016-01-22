@@ -100,7 +100,11 @@ public class MyFilterFactory extends FilterFactory {
                 filter = new Curve2D("nongyu.png");
                 break;
             case 15:
-                IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                if(mChangeColorMatrix == null) 
+                    IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else 
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
                 filter = new DarkCornerCurve2D(IDENTITY_MAT, 0.5F, 1.0F);
                 ((BaseFilter)filter).addParam(new TextureResParam("inputImageTexture2", "lomofilm.png", '蓂'));
                 break;
@@ -108,53 +112,105 @@ public class MyFilterFactory extends FilterFactory {
                 filter = new Curve2D("xpro2.png");
                 break;
             case 17:
-                IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
                 filter = new DarkCornerCurve2D(IDENTITY_MAT, 0.35F, 1.721429F);
                 ((BaseFilter)filter).addParam(new TextureResParam("inputImageTexture2", "daianna.png", '蓂'));
                 break;
             case 18:
-                IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 filter = new DarkCornerCurve2D(IDENTITY_MAT, 0.275F, 1.4004412F);
                 ((BaseFilter)filter).addParam(new TextureResParam("inputImageTexture2", "qingseniandai.png", '蓂'));
                 break;
             case 19:
-                IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 filter = new DarkCornerCurve2D(IDENTITY_MAT, 0.2F, 1.8F);
                 ((BaseFilter)filter).addParam(new TextureResParam("inputImageTexture2", "country.png", '蓂'));
                 break;
             case 20:
-                IDENTITY_MAT = new float[]{0.6495F, 0.1495F, 0.1495F, 0.0F, 0.294F, 0.794F, 0.294F, 0.0F, 0.057F, 0.057F, 0.557F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.6495F, 0.1495F, 0.1495F, 0.0F, 0.294F, 0.794F, 0.294F, 0.0F, 0.057F, 0.057F, 0.557F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 filter = new DarkCornerCurve2D(IDENTITY_MAT, 0.175F, 1.0154F);
                 ((BaseFilter)filter).addParam(new TextureResParam("inputImageTexture2", "lake.png", '蓂'));
                 break;
             case 21:
-                IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+
+                
                 filter = new DarkCornerCurve2D(IDENTITY_MAT, 0.35F, 1.721429F);
                 ((BaseFilter)filter).addParam(new TextureResParam("inputImageTexture2", "instant.png", '蓂'));
                 break;
             case 22:
-                IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 filter = new DarkCornerCurve2D(IDENTITY_MAT, 0.3F, 1.490898F);
                 ((BaseFilter)filter).addParam(new TextureResParam("inputImageTexture2", "lomo.png", '蓂'));
                 break;
             case 23:
-                IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 filter = new DarkCornerCurve2D(IDENTITY_MAT, 0.35F, 1.721429F);
                 ((BaseFilter)filter).addParam(new TextureResParam("inputImageTexture2", "pro.png", '蓂'));
                 break;
             case 24:
                 filter = new Curve2D("shishang.png");
-                IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 25:
                 filter = new Curve2D("huanxiang.png");
-                IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 26:
                 filter = new Curve2D("gudian.png");
-                IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 27:
@@ -171,11 +227,23 @@ public class MyFilterFactory extends FilterFactory {
                 break;
             case 31:
                 Curve2D filter1 = new Curve2D(GLSLRender.FILTER_QQ_ROWFILM, "tonny01.png");
-                IDENTITY_MAT = new float[]{0.965F, 0.015F, 0.015F, 0.0F, 0.03F, 0.97999996F, 0.03F, 0.0F, 0.005F, 0.005F, 0.955F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.965F, 0.015F, 0.015F, 0.0F, 0.03F, 0.97999996F, 0.03F, 0.0F, 0.005F, 0.005F, 0.955F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter1).setMatrix(IDENTITY_MAT);
             case 107:
                 filter = new Curve2D(GLSLRender.FILTER_SHADER_SKETCH, "sketch.png");
-                IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 32:
@@ -186,7 +254,13 @@ public class MyFilterFactory extends FilterFactory {
                 break;
             case 34:
                 filter = new Curve2D("qingxiheibai.png");
-                IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 35:
@@ -194,7 +268,13 @@ public class MyFilterFactory extends FilterFactory {
                 break;
             case 36:
                 filter = new Curve2D("brannan.png");
-                IDENTITY_MAT = new float[]{0.76633334F, 0.09966666F, 0.09966666F, 0.0F, 0.19566667F, 0.86233336F, 0.19566667F, 0.0F, 0.038F, 0.038F, 0.7046667F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.76633334F, 0.09966666F, 0.09966666F, 0.0F, 0.19566667F, 0.86233336F, 0.19566667F, 0.0F, 0.038F, 0.038F, 0.7046667F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 37:
@@ -202,7 +282,13 @@ public class MyFilterFactory extends FilterFactory {
                 break;
             case 38:
                 filter = new Curve2D("paintink.png");
-                IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 39:
@@ -325,32 +411,69 @@ public class MyFilterFactory extends FilterFactory {
                 break;
             case 71:
                 filter = new Curve2D("jingdianheibai.png");
-                IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 72:
                 filter = new Curve2D("danya.png");
-                IDENTITY_MAT = new float[]{0.825F, 0.075F, 0.075F, 0.0F, 0.147F, 0.897F, 0.147F, 0.0F, 0.029F, 0.029F, 0.779F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.825F, 0.075F, 0.075F, 0.0F, 0.147F, 0.897F, 0.147F, 0.0F, 0.029F, 0.029F, 0.779F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 73:
                 filter = new Curve2D("shenchen.png");
-                IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 74:
                 filter = new Curve2D("loft.png");
-                IDENTITY_MAT = new float[]{0.825F, 0.075F, 0.075F, 0.0F, 0.147F, 0.897F, 0.147F, 0.0F, 0.029F, 0.029F, 0.779F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.825F, 0.075F, 0.075F, 0.0F, 0.147F, 0.897F, 0.147F, 0.0F, 0.029F, 0.029F, 0.779F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 75:
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
                 filter = new Curve2D("yinzhuang.png");
-                IDENTITY_MAT = new float[]{0.299F, 0.299F, 0.299F, 0.0F, 0.587F, 0.587F, 0.587F, 0.0F, 0.114F, 0.114F, 0.114F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 76:
                 filter = new Curve2D("wangshi.png");
-                IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 77:
@@ -512,7 +635,12 @@ public class MyFilterFactory extends FilterFactory {
                 break;
             case 146:
                 filter = new Curve2D("1949.png");
-                IDENTITY_MAT = new float[]{0.6495F, 0.1495F, 0.1495F, 0.0F, 0.294F, 0.794F, 0.294F, 0.0F, 0.057F, 0.057F, 0.557F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.6495F, 0.1495F, 0.1495F, 0.0F, 0.294F, 0.794F, 0.294F, 0.0F, 0.057F, 0.057F, 0.557F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 147:
@@ -523,7 +651,13 @@ public class MyFilterFactory extends FilterFactory {
                 break;
             case 149:
                 filter = new Curve2D("oldschool.png");
-                IDENTITY_MAT = new float[]{0.825F, 0.075F, 0.075F, 0.0F, 0.147F, 0.897F, 0.147F, 0.0F, 0.029F, 0.029F, 0.779F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.825F, 0.075F, 0.075F, 0.0F, 0.147F, 0.897F, 0.147F, 0.0F, 0.029F, 0.029F, 0.779F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 150:
@@ -531,7 +665,13 @@ public class MyFilterFactory extends FilterFactory {
                 break;
             case 151:
                 filter = new Curve2D("london.png");
-                IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+
+                if(mChangeColorMatrix == null)
+                    IDENTITY_MAT = new float[]{0.5326F, 0.1993F, 0.1993F, 0.0F, 0.391F, 0.7243F, 0.391F, 0.0F, 0.076F, 0.076F, 0.4093F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F};
+                else
+                    IDENTITY_MAT = mChangeColorMatrix;
+                
+                
                 ((Curve2D)filter).setMatrix(IDENTITY_MAT);
                 break;
             case 202:
@@ -545,7 +685,7 @@ public class MyFilterFactory extends FilterFactory {
         }
 
         if(mOnChangeFilterListener != null && IDENTITY_MAT != null) {
-            mOnChangeFilterListener.onFilterChange(IDENTITY_MAT);
+            mOnChangeFilterListener.onFilterChange(IDENTITY_MAT, mFilterEnum, mEffectIndex);
         }
 
         return (BaseFilter)filter;
@@ -677,7 +817,29 @@ public class MyFilterFactory extends FilterFactory {
         renderBitmapByFilterIDSync(src, filterID, effectIndex, adjustParam);
     }
 
+    private static String mFilterEnum = "";
+    private static int mEffectIndex = 0;
     public static BaseFilter createFilter(String filterEnum, int effectIndex) {
+        mFilterEnum = filterEnum;
+        mEffectIndex = effectIndex;
+        mChangeColorMatrix = null;
+        
+        int filterID = filterIdFromString(filterEnum, effectIndex);
+        BaseFilter filter = createFilter(filterID);
+        HashMap parammap = new HashMap();
+        parammap.put("effectIndex", Integer.valueOf(effectIndex));
+        filter.setParameterDic(parammap);
+        parammap.clear();
+        return filter;
+    }
+    
+    private static float[] mChangeColorMatrix;
+    
+    public static BaseFilter createFilter(float[] colorMatrix, String filterEnum, int effectIndex) {
+        mFilterEnum = filterEnum;
+        mEffectIndex = effectIndex;
+        mChangeColorMatrix = colorMatrix;
+
         int filterID = filterIdFromString(filterEnum, effectIndex);
         BaseFilter filter = createFilter(filterID);
         HashMap parammap = new HashMap();
@@ -769,6 +931,6 @@ public class MyFilterFactory extends FilterFactory {
     }
     
     public interface OnChangeFilterListener {
-        void onFilterChange(float[] colorMatrix);
+        void onFilterChange(float[] colorMatrix, String filterEnum, int effectIndex);
     }
 }

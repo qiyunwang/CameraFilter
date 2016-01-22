@@ -72,6 +72,21 @@ public class FilterProcess {
 		mFilter.ApplyGLSLFilter(true, 0, 0);
 	}
 
+    public void changeFilter(float[] colorMatrix, String filterID, int effectIndex) {
+        if (mFilter != null && this.filterId.equals(filterID) && this.effectIndex == effectIndex) {
+            return;
+        }
+        if (mFilter != null) {
+            mFilter.ClearGLSL();
+        }
+        this.filterId = filterID;
+        this.effectIndex = effectIndex;
+        //mFilter =  FilterFactory.createFilter(filterId, effectIndex);
+
+        mFilter = MyFilterFactory.createFilter(colorMatrix, filterId, effectIndex);
+        mFilter.ApplyGLSLFilter(true, 0, 0);
+    }
+
     public void setOnChangeFilterListener(OnChangeFilterListener listener) {
         MyFilterFactory.setOnChangeFilterListener(listener);
     }

@@ -3,6 +3,7 @@ package com.camerafilter.qiyunwang.camerafilter;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
@@ -10,7 +11,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import java.io.InterruptedIOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,6 +18,8 @@ import java.util.List;
  * Created by qiyunwang on 16/1/22.
  */
 public class ColorMatrixSelectorDialog extends Dialog {
+    private static final String TAG = "ColorMatrixSelectorDialog";
+    
     private Context mContext;
     private TextView[] mColumnValueViews;
     private SeekBar[] mColumnSeekBars;
@@ -87,6 +89,14 @@ public class ColorMatrixSelectorDialog extends Dialog {
             mColumnSeekBars[i].setProgress((int)(colorMatrix[i] * 100));
             mColumnValueViews[i].setText(mColumnSeekBars[i].getProgress() + "");
         }
+
+        StringBuffer sb = new StringBuffer();
+        int count = 0;
+        for(float colorValue : colorMatrix) {
+            sb.append((int)(colorValue * 100)).append("_");
+            count += (int)(colorValue * 100);
+        }
+        Log.d(TAG, "onFilterChange(color change):" + count + "(" + sb + ")");
     }
     
     public void setOnColorSelectorChangeListener(OnColorSelectorChangeListener listener) {
@@ -96,7 +106,13 @@ public class ColorMatrixSelectorDialog extends Dialog {
     private OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            int index = Integer.parseInt(seekBar.getTag().toString());
+            mColumnValueViews[index].setText(seekBar.getProgress() + "");
 
+            if(mOnColorSelectorChangeListener != null && mColorMatrix != null) {
+                mColorMatrix[index] = seekBar.getProgress() / 100;
+                mOnColorSelectorChangeListener.onColorChange(mColorMatrix);
+            }
         }
 
         @Override
@@ -106,13 +122,7 @@ public class ColorMatrixSelectorDialog extends Dialog {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            int index = Integer.parseInt(seekBar.getTag().toString());
-            mColumnValueViews[index].setText(seekBar.getProgress() + "");
-            
-            if(mOnColorSelectorChangeListener != null) {
-                mColorMatrix[index] = seekBar.getProgress() / 100;
-                mOnColorSelectorChangeListener.onColorChange(mColorMatrix);
-            }
+
         }
     };
     

@@ -23,6 +23,9 @@ import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.Size;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -30,6 +33,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import com.camerafilter.qiyunwang.camerafilter.ColorMatrixSelectorDialog.OnColorSelectorChangeListener;
 import com.camerafilter.qiyunwang.camerafilter.GPUImageFilterTools.OnGpuImageFilterChosenListener;
 import com.camerafilter.qiyunwang.camerafilter.MyFilterFactory.OnChangeFilterListener;
 
@@ -50,6 +54,10 @@ public class CameraActivity extends Activity implements OnClickListener {
     private Button mDialigClick;
 
     private float[] mColorMatrix = null;
+    private String mFilterEnum;
+    private int mEffectIndex;
+
+    private static final String TAG = "CameraActivity";
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -57,6 +65,7 @@ public class CameraActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_camera);
         findViewById(R.id.button_choose_filter).setOnClickListener(this);
         findViewById(R.id.button_click_dialog).setOnClickListener(this);
+        findViewById(R.id.button_click_dialog).setEnabled(false);
 
         mGPUImageView = (CameraPreview_23) findViewById(R.id.surfaceView);
         mGPUImageView.setRotationAndFlip(90, 0, 0);
@@ -187,6 +196,8 @@ public class CameraActivity extends Activity implements OnClickListener {
         switch (v.getId()) {
             case R.id.button_choose_filter:
                 mGPUImageView.setOnChangeFilterListener(mOnChangeFilterListener);
+                mColorMatrix = null;
+                findViewById(R.id.button_click_dialog).setEnabled(false);
                 GPUImageFilterTools.generateNextFilter(this, new OnGpuImageFilterChosenListener() {
 
                     public void onGpuImageFilterChosenListener(String filterName, String filterID, int effect) {
@@ -200,6 +211,7 @@ public class CameraActivity extends Activity implements OnClickListener {
                 ColorMatrixSelectorDialog dialog = new ColorMatrixSelectorDialog(this);
                 dialog.show();
                 dialog.updateColorMatrix(mColorMatrix);
+                dialog.setOnColorSelectorChangeListener(mOnColorSelectorChangeListener);
                 break;
             case R.id.img_switch_camera:
                 mCameraDevice.stopPreview();
@@ -252,12 +264,47 @@ public class CameraActivity extends Activity implements OnClickListener {
     
     private OnChangeFilterListener mOnChangeFilterListener = new OnChangeFilterListener() {
         @Override
-        public void onFilterChange(float[] colorMatrix) {
+        public void onFilterChange(float[] colorMatrix, String filterEnum, int effectIndex) {
             mColorMatrix = colorMatrix;
+            mFilterEnum = filterEnum;
+            mEffectIndex = effectIndex;
+
+            //StringBuffer sb = new StringBuffer();
+            int count = 0;
+            for(float colorValue : colorMatrix) {
+                //sb.append((int)(colorValue * 100)).append("_");
+                count += (int)(colorValue * 100);
+            }
+            Log.d(TAG, "onFilterChange(color change):" + count);
+            
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    findViewById(R.id.button_click_dialog).setEnabled(true);
+                }
+            });
         }
     };
 
+    
+    private OnColorSelectorChangeListener mOnColorSelectorChangeListener = new OnColorSelectorChangeListener() {
+        @Override
+        public void onColorChange(float[] colorMatrix) {
+            mColorMatrix = null;
+            mColorMatrix = colorMatrix;
 
+            //StringBuffer sb = new StringBuffer();
+            int count = 0;
+            for(float colorValue : colorMatrix) {
+                //sb.append((int)(colorValue * 100)).append("_");
+                count += (int)(colorValue * 100);
+            }
+            Log.d(TAG, "onFilterChange(color change):" + count);
+            
+            mGPUImageView.setFilter(colorMatrix, mFilterEnum, mEffectIndex);
+        }
+    };
+    
     static {
         try {
             System.loadLibrary("image_filter_common");

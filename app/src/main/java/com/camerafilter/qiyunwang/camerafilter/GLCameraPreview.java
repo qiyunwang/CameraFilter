@@ -134,8 +134,29 @@ abstract public class GLCameraPreview extends GLSurfaceView implements
 				});
 			}
 		}
-
 	}
+
+    public void setFilter(final float[] colorMatrix, String filterID, final int effectIndex) {
+        mImagecount = 0;
+        synchronized (mFilterLock) {
+            mPendingFilter = filterID;
+            if (!mIsChangingFilter) {
+                // queue to render thread
+                mIsChangingFilter = true;
+                queueEvent(new Runnable() {
+                    @Override
+                    public void run() {
+                        String filter;
+                        synchronized (mFilterLock) {
+                            filter = mPendingFilter;
+                            mIsChangingFilter = false;
+                        }
+                        mFilterProces.changeFilter(colorMatrix, filter, effectIndex);
+                    }
+                });
+            }
+        }
+    }
 
     public void setOnChangeFilterListener(OnChangeFilterListener listener) {
         mFilterProces.setOnChangeFilterListener(listener);
