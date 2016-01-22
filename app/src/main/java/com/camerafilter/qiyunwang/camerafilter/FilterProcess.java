@@ -3,6 +3,7 @@ package com.camerafilter.qiyunwang.camerafilter;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import com.camerafilter.qiyunwang.camerafilter.MyFilterFactory.OnChangeFilterListener;
 import com.tencent.filter.BaseFilter;
 import com.tencent.filter.Frame;
 import com.tencent.filter.GLSLRender;
@@ -70,6 +71,10 @@ public class FilterProcess {
         mFilter = MyFilterFactory.createFilter(filterId, effectIndex);   
 		mFilter.ApplyGLSLFilter(true, 0, 0);
 	}
+
+    public void setOnChangeFilterListener(OnChangeFilterListener listener) {
+        MyFilterFactory.setOnChangeFilterListener(listener);
+    }
 
 	public Bitmap makeFilter(Bitmap bitmap, int rotation, int flipY,
                              int cameraId, int backupDegree) {

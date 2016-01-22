@@ -31,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 import com.camerafilter.qiyunwang.camerafilter.GPUImageFilterTools.OnGpuImageFilterChosenListener;
+import com.camerafilter.qiyunwang.camerafilter.MyFilterFactory.OnChangeFilterListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -47,6 +48,8 @@ public class CameraActivity extends Activity implements OnClickListener {
     Size previewSize;
 
     private Button mDialigClick;
+
+    private float[] mColorMatrix = null;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -183,6 +186,7 @@ public class CameraActivity extends Activity implements OnClickListener {
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.button_choose_filter:
+                mGPUImageView.setOnChangeFilterListener(mOnChangeFilterListener);
                 GPUImageFilterTools.generateNextFilter(this, new OnGpuImageFilterChosenListener() {
 
                     public void onGpuImageFilterChosenListener(String filterName, String filterID, int effect) {
@@ -195,6 +199,7 @@ public class CameraActivity extends Activity implements OnClickListener {
             case R.id.button_click_dialog:
                 ColorMatrixSelectorDialog dialog = new ColorMatrixSelectorDialog(this);
                 dialog.show();
+                dialog.updateColorMatrix(mColorMatrix);
                 break;
             case R.id.img_switch_camera:
                 mCameraDevice.stopPreview();
@@ -244,6 +249,14 @@ public class CameraActivity extends Activity implements OnClickListener {
                 break;
         }
     }
+    
+    private OnChangeFilterListener mOnChangeFilterListener = new OnChangeFilterListener() {
+        @Override
+        public void onFilterChange(float[] colorMatrix) {
+            mColorMatrix = colorMatrix;
+        }
+    };
+
 
     static {
         try {

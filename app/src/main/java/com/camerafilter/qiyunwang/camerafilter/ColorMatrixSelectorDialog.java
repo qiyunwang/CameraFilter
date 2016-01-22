@@ -77,7 +77,11 @@ public class ColorMatrixSelectorDialog extends Dialog {
         }
     }
 
-    public void updateSeeks(float[] colorMatrix) {
+    public void updateColorMatrix(float[] colorMatrix) {
+        if(colorMatrix == null) {
+            return;
+        }
+        
         for(int i = 0; i < colorMatrix.length; i++) {
             mColorMatrix = colorMatrix;
             mColumnSeekBars[i].setProgress((int)(colorMatrix[i] * 100));

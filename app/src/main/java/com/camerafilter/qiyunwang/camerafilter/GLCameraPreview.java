@@ -11,6 +11,7 @@ import android.graphics.PixelFormat;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+import com.camerafilter.qiyunwang.camerafilter.MyFilterFactory.OnChangeFilterListener;
 import com.tencent.util.LogUtil;
 import com.tencent.util.PhoneProperty;
 
@@ -135,6 +136,10 @@ abstract public class GLCameraPreview extends GLSurfaceView implements
 		}
 
 	}
+
+    public void setOnChangeFilterListener(OnChangeFilterListener listener) {
+        mFilterProces.setOnChangeFilterListener(listener);
+    }
 
 
     @Override
