@@ -35,7 +35,7 @@ import com.camerafilter.qiyunwang.camerafilter.GPUImageFilterTools.OnGpuImageFil
 import java.io.IOException;
 import java.util.List;
 
-public class ActivityCamera extends Activity implements OnClickListener {
+public class CameraActivity extends Activity implements OnClickListener {
 
     private CameraPreview_23 mGPUImageView;
 
@@ -45,7 +45,7 @@ public class ActivityCamera extends Activity implements OnClickListener {
     private boolean useback = true;
     private SurfaceView display;
     Size previewSize;
-    
+
     private Button mDialigClick;
 
     @Override
@@ -53,6 +53,7 @@ public class ActivityCamera extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         findViewById(R.id.button_choose_filter).setOnClickListener(this);
+        findViewById(R.id.button_click_dialog).setOnClickListener(this);
 
         mGPUImageView = (CameraPreview_23) findViewById(R.id.surfaceView);
         mGPUImageView.setRotationAndFlip(90, 0, 0);
@@ -67,9 +68,9 @@ public class ActivityCamera extends Activity implements OnClickListener {
                 throw new RuntimeException("openCamera failed", e);
             }
         }
-        
+
         updateCamera();
-        
+
         display = (SurfaceView) findViewById(R.id.displaysurface);
         display.setVisibility(View.VISIBLE);
 
@@ -119,15 +120,15 @@ public class ActivityCamera extends Activity implements OnClickListener {
         View cameraSwitchView = findViewById(R.id.img_switch_camera);
         cameraSwitchView.setOnClickListener(this);
     }
-    
-    private  void updateCamera(){
+
+    private void updateCamera() {
         Parameters params = mCameraDevice.getParameters();
         previewSize = params.getPreviewSize();
-        float ration = previewSize.width/previewSize.height;
-        if(!useback){
-            ration = previewSize.height/previewSize.width;
+        float ration = previewSize.width / previewSize.height;
+        if (!useback) {
+            ration = previewSize.height / previewSize.width;
         }
-        
+
         mGPUImageView.setAspectRatio(ration);
     }
 
@@ -169,75 +170,78 @@ public class ActivityCamera extends Activity implements OnClickListener {
     protected void onResume() {
         super.onResume();
 
-         mCameraDevice.startPreview();
+        mCameraDevice.startPreview();
     }
 
     @Override
     protected void onPause() {
-         mCameraDevice.stopPreview();
+        mCameraDevice.stopPreview();
         super.onPause();
     }
 
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-        case R.id.button_choose_filter:
-            GPUImageFilterTools.generateNextFilter(this, new OnGpuImageFilterChosenListener() {
+            case R.id.button_choose_filter:
+                GPUImageFilterTools.generateNextFilter(this, new OnGpuImageFilterChosenListener() {
 
-                public void onGpuImageFilterChosenListener(String filterName, String filterID, int effect) {
-                    mGPUImageView.setFilter(filterID, effect);
-                    Toast.makeText(ActivityCamera.this, filterName, Toast.LENGTH_SHORT).show();
+                    public void onGpuImageFilterChosenListener(String filterName, String filterID, int effect) {
+                        mGPUImageView.setFilter(filterID, effect);
+                        Toast.makeText(CameraActivity.this, filterName, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                break;
+            case R.id.button_click_dialog:
+                ColorMatrixSelectorDialog dialog = new ColorMatrixSelectorDialog(this);
+                dialog.show();
+                break;
+            case R.id.img_switch_camera:
+                mCameraDevice.stopPreview();
+                mCameraDevice.setPreviewCallback(null);
+                try {
+                    mCameraDevice.setPreviewDisplay(null);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
-            });
-
-            break;
-        
-        case R.id.img_switch_camera:
-            mCameraDevice.stopPreview();
-            mCameraDevice.setPreviewCallback(null);
-            try {
-                mCameraDevice.setPreviewDisplay(null);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            int cameraid = front;
-            if (useback) {
-                mGPUImageView.setRotationAndFlip(270, 0, 0);
-                cameraid = front;
-            } else {
-                mGPUImageView.setRotationAndFlip(90, 0, 0);
-                cameraid = back;
-            }
-            useback = !useback;
-
-            try {
-                mCameraDevice = CameraHolder.instance().open(cameraid);
-            } catch (CameraHardwareException e) {
-                // In eng build, we throw the exception so that test tool
-                // can detect it and report it
-                if ("eng".equals(Build.TYPE)) {
-                    throw new RuntimeException("openCamera failed", e);
+                int cameraid = front;
+                if (useback) {
+                    mGPUImageView.setRotationAndFlip(270, 0, 0);
+                    cameraid = front;
+                } else {
+                    mGPUImageView.setRotationAndFlip(90, 0, 0);
+                    cameraid = back;
                 }
-            }
-            updateCamera();
-            try {
-                mCameraDevice.setPreviewDisplay(display.getHolder());
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+                useback = !useback;
 
-            mCameraDevice.setPreviewCallback(new PreviewCallback() {
-
-                @Override
-                public void onPreviewFrame(byte[] data, Camera camera) {
-                    mGPUImageView.onPreviewFrame(data, previewSize.width, previewSize.height);
-
+                try {
+                    mCameraDevice = CameraHolder.instance().open(cameraid);
+                } catch (CameraHardwareException e) {
+                    // In eng build, we throw the exception so that test tool
+                    // can detect it and report it
+                    if ("eng".equals(Build.TYPE)) {
+                        throw new RuntimeException("openCamera failed", e);
+                    }
                 }
-            });
-            mCameraDevice.startPreview();
-            break;
+                updateCamera();
+                try {
+                    mCameraDevice.setPreviewDisplay(display.getHolder());
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                mCameraDevice.setPreviewCallback(new PreviewCallback() {
+
+                    @Override
+                    public void onPreviewFrame(byte[] data, Camera camera) {
+                        mGPUImageView.onPreviewFrame(data, previewSize.width, previewSize.height);
+
+                    }
+                });
+                mCameraDevice.startPreview();
+                break;
         }
     }
 

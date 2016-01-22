@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#00000055"
-    android:orientation="vertical">
-    
-    <include 
-        android:id="@+id/color_matrix_row_red"
-        layout="@layout/color_matrix_row"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:scrollbars="none">
 
-    <include
-        android:id="@+id/color_matrix_row_green"
-        layout="@layout/color_matrix_row"/>
 
-    <include
-        android:id="@+id/color_matrix_row_bule"
-        layout="@layout/color_matrix_row"/>
+    <LinearLayout android:layout_width="200dp" android:layout_height="match_parent" android:background="#00000055"
+        android:orientation="vertical">
 
-    <include
-        android:id="@+id/color_matrix_row_transparent"
-        layout="@layout/color_matrix_row"/>
-    
-</LinearLayout>
+
+        <include android:id="@+id/color_matrix_row_red" layout="@layout/color_matrix_row" />
+
+        <include android:id="@+id/color_matrix_row_green" layout="@layout/color_matrix_row" />
+
+        <include android:id="@+id/color_matrix_row_bule" layout="@layout/color_matrix_row" />
+
+        <include android:id="@+id/color_matrix_row_transparent" layout="@layout/color_matrix_row" />
+
+
+    </LinearLayout>
+
+</ScrollView>
