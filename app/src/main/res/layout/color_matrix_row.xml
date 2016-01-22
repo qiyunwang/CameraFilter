@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="matrix_row_red"/>
+
+    <include 
+        android:id="@+id/color_matrix_row_red" 
+        layout="@layout/color_matrix_colume"/>
+
+    <include
+        android:id="@+id/color_matrix_row_green"
+        layout="@layout/color_matrix_colume"/>
+    
+    <include
+        android:id="@+id/color_matrix_row_bule"
+        layout="@layout/color_matrix_colume"/>
+
+    <include
+        android:id="@+id/color_matrix_row_transparent"
+        layout="@layout/color_matrix_colume"/>
+    
+</LinearLayout>
