@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import com.camerafilter.qiyunwang.camerafilter.R;
 import com.camerafilter.qiyunwang.camerafilter.filter.QlippieFilterFactory;
+import com.camerafilter.qiyunwang.camerafilter.view.IPhotoFilterView.OnAdjustParamSelectorListener;
+import com.camerafilter.qiyunwang.camerafilter.view.IPhotoFilterView.OnPhotoSelectorListener;
 import com.camerafilter.qiyunwang.camerafilter.view.IPhotoFilterView.PhotoFilterParam;
 import com.camerafilter.qiyunwang.camerafilter.view.PhotoFilterView;
 
@@ -21,10 +23,10 @@ import java.util.List;
 public class FilterImageListActivity extends Activity {
     private static final String TAG = "FilterImageListActivity";
     
-    private float mAdjustParam = 2.0f;
+    private float mAdjustParam = 1.0f;
     
     private PhotoFilterView mPhotoFilterView;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,9 @@ public class FilterImageListActivity extends Activity {
         imageFilters.add(new PhotoFilterParam("经典黑白", "WEICO_BW", 0));
 
         loadPhotoFilter(imageFilters);
+        mPhotoFilterView.setOnPhotoSeleteorListener(mOnPhotoSelectorListener);
+        mPhotoFilterView.setOnAdjustParamSelectorListener(mOnAdjustParamSelectorListener);
+        mPhotoFilterView.setEffectTitle("");
     }
     
     public void loadPhotoFilter(List<PhotoFilterParam> imageFilters) {
@@ -53,39 +58,94 @@ public class FilterImageListActivity extends Activity {
         
         for(int position = 0; position < length; position ++) {
             PhotoFilterParam param = imageFilters.get(position);
-            param.bitmap = obtainPhotoBitmap();;
+            param.bitmap = obtainThumbnailPhotoBitmap();;
             Log.d(TAG, "param.bitmap = " + param.bitmap);
             
             renderBitmapFilter(param, position, imageFilters);
         }
     }
     
-    public void renderBitmapFilter(final PhotoFilterParam param, final int position, final List<PhotoFilterParam> imageFilters) {
+    public void renderBitmapFilter(PhotoFilterParam param, final int position, final List<PhotoFilterParam> imageFilters) {
         final int length = imageFilters.size();
-        
-        QlippieFilterFactory.renderBitmapByFilterIDAsync(param.bitmap, param.filterEnum, param.effectIndex, mAdjustParam, new Runnable() {
+
+        asyncRenderBitmap(param.bitmap, param, mAdjustParam, new OnRenderUIThreadCallback() {
             @Override
-            public void run() {
+            public void onUICallback(Bitmap bitmap, PhotoFilterParam param) {
                 if(position == length - 1) {
-                    notifyRenderFinish();
+                    mPhotoFilterView.refreshPhotoResources(imageFilters);
                 }
             }
+        });
+    }
 
-            private void notifyRenderFinish() {
+    private Bitmap obtainThumbnailPhotoBitmap() {
+        Drawable drawable = getResources().getDrawable(R.drawable.qlippie_image);
+        Bitmap result = ((BitmapDrawable) drawable).getBitmap();
+        //result = ThumbnailUtils.extractThumbnail(result, 100, 100);
+        return new BitmapDrawable(result).getBitmap().copy(Config.ARGB_8888, false);
+    }
+
+    private void asyncRenderBitmap(final Bitmap bitmap, final PhotoFilterParam param, float adjustParam,final OnRenderUIThreadCallback callback) {
+        updateAdjustParam(adjustParam);
+        
+        QlippieFilterFactory.renderBitmapByFilterIDAsync(bitmap, param.filterEnum, param.effectIndex, adjustParam, new Runnable() {
+
+            @Override
+            public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPhotoFilterView.refreshPhotoResources(imageFilters);
+                        callback.onUICallback(bitmap, param);
                     }
                 });
             }
         });
     }
 
-    private Bitmap obtainPhotoBitmap() {
-        Drawable drawable = getResources().getDrawable(R.drawable.qlippie_image);
-        Bitmap result = ((BitmapDrawable) drawable).getBitmap();
-        //result = ThumbnailUtils.extractThumbnail(result, 100, 100);
-        return new BitmapDrawable(result).getBitmap().copy(Config.ARGB_8888, false);
+    private void updateAdjustParam(float adjustParam) {
+        if(mPhotoFilterView != null) {
+            mPhotoFilterView.setAdjustParam(adjustParam);
+        }
+    }
+
+    private OnPhotoSelectorListener mOnPhotoSelectorListener = new OnPhotoSelectorListener() {
+        @Override
+        public void onSelector(PhotoFilterParam param) {
+            final Bitmap bitmap = obtainThumbnailPhotoBitmap();
+            asyncRenderBitmap(bitmap, param, mAdjustParam, new OnRenderUIThreadCallback() {
+                @Override
+                public void onUICallback(Bitmap bitmap, PhotoFilterParam param) {
+                    if(mPhotoFilterView != null) {
+                        mPhotoFilterView.setEffectPhoto(bitmap);
+                        mPhotoFilterView.setEffectTitle(param.name);
+                    }
+                }
+            });
+        }
+    };
+
+    private OnAdjustParamSelectorListener mOnAdjustParamSelectorListener = new OnAdjustParamSelectorListener() {
+        @Override
+        public void onAdjustParamSelector(PhotoFilterParam param, float adjustParam) {
+            if(param == null) {
+                Log.d(TAG, "param == null.");
+                return;
+            }
+            
+            final Bitmap bitmap = obtainThumbnailPhotoBitmap();
+            asyncRenderBitmap(bitmap, param, adjustParam, new OnRenderUIThreadCallback() {
+                @Override
+                public void onUICallback(Bitmap bitmap, PhotoFilterParam param) {
+                    if(mPhotoFilterView != null) {
+                        mPhotoFilterView.setEffectPhoto(bitmap);
+                        mPhotoFilterView.setEffectTitle(param.name);
+                    }
+                }
+            });
+        }
+    };
+    
+    private interface OnRenderUIThreadCallback {
+        void onUICallback(Bitmap bitmap, PhotoFilterParam param);
     }
 }

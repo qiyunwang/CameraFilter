@@ -1,14 +1,21 @@
 package com.camerafilter.qiyunwang.camerafilter.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 import com.camerafilter.qiyunwang.camerafilter.R;
 import com.camerafilter.qiyunwang.camerafilter.view.horizontallistview.HorizontalListView;
 
@@ -23,8 +30,18 @@ public class PhotoFilterView extends LinearLayout implements IPhotoFilterView {
 
     private HorizontalListView mHorizontalListView;
     private HorizontalListViewAdapter mHorizontalListViewAdapter;
-    private OnPhotoSelectorListener mOnPhotoSelectorListener;
     
+    private OnPhotoSelectorListener mOnPhotoSelectorListener;
+    private OnAdjustParamSelectorListener mOnAdjustParamSelectorListener;
+    
+    private ImageView mEffectPhotoView;
+    private TextView mEffectTitleView;
+    
+    private SeekBar mAdjustSeekBar;
+    private TextView mAdjustSeekValue;
+
+    private PhotoFilterParam mCurrentFilterParam;
+
     public PhotoFilterView(Context context) {
         super(context);
         loadViewLayout();
@@ -44,7 +61,6 @@ public class PhotoFilterView extends LinearLayout implements IPhotoFilterView {
     public void refreshPhotoResources(List<PhotoFilterParam> params) {
         if(mHorizontalListViewAdapter == null) {
             mHorizontalListViewAdapter = new HorizontalListViewAdapter(getContext(), params);
-            mHorizontalListViewAdapter.setOnPhotoSelectListener(mOnPhotoSelectorListener);
             
             if(mHorizontalListView != null) {
                 mHorizontalListView.setAdapter(mHorizontalListViewAdapter);
@@ -57,27 +73,99 @@ public class PhotoFilterView extends LinearLayout implements IPhotoFilterView {
     @Override
     public void setOnPhotoSeleteorListener(OnPhotoSelectorListener listener) {
         mOnPhotoSelectorListener = listener;
-        
-        if(mHorizontalListViewAdapter != null) {
-            mHorizontalListViewAdapter.setOnPhotoSelectListener(listener);
+    }
+
+    @Override
+    public void setOnAdjustParamSelectorListener(OnAdjustParamSelectorListener listener) {
+        mOnAdjustParamSelectorListener = listener;
+    }
+
+    @Override
+    public void setEffectPhoto(Bitmap bitmap) {
+        if(mEffectPhotoView != null) {
+            mEffectPhotoView.setImageBitmap(bitmap);
         }
     }
-    
+
+    @Override
+    public void setEffectTitle(String title) {
+        if(mEffectTitleView != null) {
+            mEffectTitleView.setText(title);
+        }
+    }
+
+    @Override
+    public void setAdjustParam(float adjustParam) {
+        if(mAdjustSeekBar != null && mCurrentFilterParam != null) {
+            float current = (float)mAdjustSeekBar.getProgress() / 100;
+            
+            if(current != adjustParam) {
+                mAdjustSeekBar.setProgress((int) (100 * adjustParam));
+            }
+        }
+    }
+
     private void loadViewLayout() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         inflater.inflate(R.layout.photo_filter_layout, this);
 
         mHorizontalListView = (HorizontalListView) findViewById(R.id.horizontal_photo_list);
+        mEffectPhotoView = (ImageView) findViewById(R.id.effect_photo);
+        mEffectTitleView = (TextView) findViewById(R.id.effect_title); 
+        
+        mAdjustSeekBar = (SeekBar) findViewById(R.id.adjust_param_seek);
+        mAdjustSeekValue = (TextView) findViewById(R.id.adjust_param_seek_value); 
+        
+        mAdjustSeekBar.setMax(200);
+        
+        mHorizontalListView.setOnItemClickListener(mOnItemClickListener);
+        mAdjustSeekBar.setOnSeekBarChangeListener(mOnSeekBarChangListener);
     }
+    
+    private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if(mOnPhotoSelectorListener != null) {
+                if(mHorizontalListViewAdapter != null) {
+                    List<PhotoFilterParam> params = mHorizontalListViewAdapter.obtainPhotoFilterParams();
+                    
+                    if(params != null && params.size() > position) {
+                        mCurrentFilterParam = params.get(position);
+                        mOnPhotoSelectorListener.onSelector(mCurrentFilterParam);
+                    }
+                }
+            }
+        }
+    };
+
+    private OnSeekBarChangeListener mOnSeekBarChangListener = new OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if(mAdjustSeekValue != null) {
+                mAdjustSeekValue.setText(progress + "");
+                
+                if(mOnAdjustParamSelectorListener != null) {
+                    mOnAdjustParamSelectorListener.onAdjustParamSelector(mCurrentFilterParam, (float)progress / 100);
+                }
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
     
     private static class HorizontalListViewAdapter extends ArrayAdapter<PhotoFilterParam> {
         private static final String TAG = "HorizontalListViewAdapter";
         private LayoutInflater mLayoutInflater;
         
         private List<PhotoFilterParam> mPhotoFilterParams;
-        
-        private OnPhotoSelectorListener mOnPhotoSelectListener;
-        
         public HorizontalListViewAdapter(Context context, List<PhotoFilterParam> params) {
             super(context, R.layout.photo_filter_item, params);
             mLayoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -121,6 +209,10 @@ public class PhotoFilterView extends LinearLayout implements IPhotoFilterView {
             return position;
         }
 
+        public List<PhotoFilterParam> obtainPhotoFilterParams() {
+            return mPhotoFilterParams;
+        }
+        
         public void notifyDataSetChanged(List<PhotoFilterParam> params) {
             if(mPhotoFilterParams == null) {
                 mPhotoFilterParams = new ArrayList<>();
@@ -129,10 +221,6 @@ public class PhotoFilterView extends LinearLayout implements IPhotoFilterView {
             }
             
             mPhotoFilterParams.addAll(params);
-        }
-        
-        public void setOnPhotoSelectListener(OnPhotoSelectorListener listener) {
-            mOnPhotoSelectListener = listener;
         }
         
         private void updateViewData(ViewHolder holder, int position) {
@@ -150,9 +238,10 @@ public class PhotoFilterView extends LinearLayout implements IPhotoFilterView {
             
             if(holder.photoImageView != null && param.bitmap != null) {
                 holder.photoImageView.setImageBitmap(param.bitmap);
+                holder.photoImageView.setTag(position);
             }
         }
-
+        
         private static class ViewHolder {
             public ImageView photoImageView;
         }

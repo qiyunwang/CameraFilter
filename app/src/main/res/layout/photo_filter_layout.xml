@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
+<RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android" 
     android:orientation="vertical"
     android:layout_width="match_parent" 
@@ -8,6 +8,20 @@
     <com.camerafilter.qiyunwang.camerafilter.view.horizontallistview.HorizontalListView 
         android:id="@+id/horizontal_photo_list"
         android:layout_width="match_parent" 
-        android:layout_height="match_parent" />
+        android:layout_height="140dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentBottom="true"/>
 
-</LinearLayout>
+    <include
+        android:id="@+id/adjust_param_selector_layout"
+        layout="@layout/adjust_param_selector_layout" />
+    
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/horizontal_photo_list"
+        android:layout_below="@id/adjust_param_selector_layout"
+        layout="@layout/effect_context_layout"/>
+    
+</RelativeLayout>
