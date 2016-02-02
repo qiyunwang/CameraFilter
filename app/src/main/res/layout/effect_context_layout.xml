@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android" 
     android:orientation="vertical"
     android:layout_width="match_parent" 
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
     
     <TextView
         android:id="@+id/effect_title"
@@ -18,7 +19,6 @@
         android:id="@+id/effect_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/effect_title"
-        android:layout_margin="10dp"/>
+        android:layout_above="@id/effect_title" />
 
 </RelativeLayout>

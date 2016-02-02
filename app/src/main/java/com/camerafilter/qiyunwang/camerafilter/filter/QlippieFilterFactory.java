@@ -6,6 +6,8 @@
 package com.camerafilter.qiyunwang.camerafilter.filter;
 
 import android.graphics.Bitmap;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import com.microrapid.lensFlare.LensFlareCpuFilter;
 import com.microrapid.opencv.BokehFilter;
 import com.microrapid.opencv.DepthFilter;
@@ -592,6 +594,7 @@ public class QlippieFilterFactory {
             if(newfilter.isSupportForGloableRender()) {
                 srcImage = QImage.BindBitmap(src);
                 newfilter.RendProcessImage(srcImage, qimage1);
+                
                 srcImage.UnBindBitmap(src);
             } else {
                 Photo srcImage1 = Photo.createWithoutRecycle(src);

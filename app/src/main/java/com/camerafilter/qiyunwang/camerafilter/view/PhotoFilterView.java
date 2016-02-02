@@ -114,9 +114,7 @@ public class PhotoFilterView extends LinearLayout implements IPhotoFilterView {
         mEffectTitleView = (TextView) findViewById(R.id.effect_title); 
         
         mAdjustSeekBar = (SeekBar) findViewById(R.id.adjust_param_seek);
-        mAdjustSeekValue = (TextView) findViewById(R.id.adjust_param_seek_value); 
-        
-        mAdjustSeekBar.setMax(200);
+        mAdjustSeekValue = (TextView) findViewById(R.id.adjust_param_seek_value);
         
         mHorizontalListView.setOnItemClickListener(mOnItemClickListener);
         mAdjustSeekBar.setOnSeekBarChangeListener(mOnSeekBarChangListener);
